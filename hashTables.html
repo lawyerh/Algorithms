@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        class HashList {
+            constructor() {
+                this.head = null;
+            }
+        }
+
+        class HashNode {
+            constructor(key, value) {
+                this.key = key;
+                this.val = value;
+                this.next = null;
+            }
+        }
+
+        class HashTable {
+            constructor(size) {
+                this.data = [];
+                this.size = size;
+                this.length = 0;
+                this.loadFactor = this.length / this.size;
+
+            }
+
+            CalcLoad() {
+                this.loadFactor = this.length / this.size;
+            }
+
+
+            hash(key) {
+
+                let position = 0;
+
+                for (let i = 0; i < key.length; i++) {
+                    position += key.charCodeAt(key[i])
+                }
+
+                return position % this.size;
+            }
+
+            add(key, val) {
+                if (!this.data[hash(key)]) {
+                    let list = new HashList();
+                    let node = new HashNode(key, val)
+                    list.head = node;
+                    this.data[hash(key)] = list
+                    this.length++;
+                }
+                else {
+                    let node = new HashNode(key, val)
+                    let runner = this.data[hash(key)].head;
+                    while (runner.next) {
+                        runner = runner.next;
+                    }
+                    runner.next = node;
+                    this.length++;
+                }
+            }
+
+            remove(key) {
+                if (!this.data[hash(key)]) {
+                    return false;
+                }
+                else {
+                    let runner = this.data[hash(key)].head;
+                    if (runner.key == key) {
+                        this.data[hash(key)].head = this.data[hash(key)].head.next;
+                        this.length--;
+                    }
+                    while (runner.next.key != key && runner) {
+                        runner = runner.next;
+                    }
+                    if (runner == null) {
+                        return false;
+                    }
+                    else {
+                        runner.next = runner.next.next;
+                        this.length--;
+                    }
+                }
+            }
+
+            contains(key) {
+                if (!this.data[hash(key)]) {
+                    return false;
+                }
+                else {
+                    let runner = this.data[hash(key)].head;
+                    while (runner && runner.key != key) {
+                        runner = runner.next;
+                        if (runner.key == key) {
+                            return true;
+                        }
+                    }
+                    return false;
+
+                }
+            }
+
+            isEmpty() {
+                if (this.length == 0) {
+                    return true;
+                }
+                return false;
+            }
+
+            resize() {
+                let newData = [];
+                for (var idx in this.data) {
+                    if (this.data[idx]) {
+                        let runner = this.data[idx].head;
+                        while (runner) {
+                            newData.push(runner);
+                            runner = runner.next;
+                        }
+                    }
+                }
+                this.data = [];
+                this.size *= 2;
+                this.length = 0;
+                for (var node in newData) {
+                    this.data.add(node.key, node.value)
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>
