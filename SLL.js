@@ -72,6 +72,27 @@ class SLL{
         return false;
     }
 
+    ReverseLL(){
+        let runner = this.head, temp = this.head.next;
+
+        if(!temp) {
+            return this;
+        }
+
+        while(temp){
+            let hold = temp.next;
+            temp.next = runner;
+            if(runner == this.head){
+                runner.next = null;
+            }
+            runner = temp;
+            temp = hold;
+        }
+
+        this.head = runner;
+        return this;
+    }
+
     //  moveMaxToBack(){
     //     if(!this.head){
 
@@ -101,6 +122,7 @@ class SLL{
         }
 
         if(!pt){ // if no value, return
+            console.log("The value was not present")
             return this.head;
         }
 
@@ -162,16 +184,20 @@ class SLNode{
 var list = new SLL();
 
 for(let x = 0; x < 10; x++){
-    let node = new SLNode(Math.floor(Math.random() * 15) + 1)
+    let node = new SLNode(Math.floor(Math.random() * 15) + 1);
     list.addNode(node);
 }
 
 viewList(list);
 
-list.partition(10);
-console.log("***************")
+
+// Place function to test here
+
+list.ReverseLL();
+console.log("***************");
 
 viewList(list);
+
 
 
 
