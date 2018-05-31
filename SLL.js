@@ -109,10 +109,10 @@ class SLL{
         }
 
         let runner = this.head; // traverse through list to find value
-        const pt = null;
+        var pt = null;
 
         while(runner.next){
-            if(runner.next === value){
+            if(runner.next.val === value){
                 pt = runner.next;
             }
             if(runner.val <= value){
@@ -136,7 +136,7 @@ class SLL{
         }
 
         runner = this.head; // traverse through list, moving nodes to correct side of partition.
-        while(runner){
+        while(runner && runner.next){
             if(runner == pt){
                 isPartition = true;
             }
@@ -151,14 +151,16 @@ class SLL{
                 runner.next = temp.next;
                 if(this.head != pt){
                     temp.next = this.head.next;
-                    this.head.next = temp;
+                    this.head.next = temp; 
                 }
                 else{
                     this.head = temp;
                     temp.next = pt;
                 }
             }
-            runner = runner.next; //advance runner regardless of list change
+            else{
+                runner = runner.next;
+            }
         }
         return this;
     }
