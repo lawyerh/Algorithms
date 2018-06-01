@@ -17,9 +17,11 @@ function isInterleaved (str1, str2, str3){
             charDict[str3[idx]]--;
             if(charDict[str3[idx]] == 0)
             {
-                charDict[str3[idx]].clear();
+                delete charDict[str3[idx]];
             }
         }
     }
     return true;
 }
+
+console.log(isInterleaved("dne", "ail", "daniell"));
